@@ -1,0 +1,40 @@
+mutation SeedData @transaction @auth(level: USER, insecureReason: "Seed data is for authenticated users only") {
+  class_insertMany(data: [
+    {
+      classId: "C001",
+      className: "Mathematics A",
+      teacher: "T001"
+    },
+    {
+      classId: "C002",
+      className: "Physics B",
+      teacher: "T002"
+    }
+  ])
+  student_insertMany(data: [
+    {
+      studentId: "S001",
+      name: "Alice Smith",
+      email: "alice.s@example.com",
+      classId: "C001"
+    },
+    {
+      studentId: "S002",
+      name: "Bob Johnson",
+      email: "bob.j@example.com",
+      classId: "C002"
+    }
+  ])
+  teacher_insertMany(data: [
+    {
+      teacherId: "T001",
+      name: "Mr. Davis",
+      email: "mr.davis@example.com"
+    },
+    {
+      teacherId: "T002",
+      name: "Ms. Garcia",
+      email: "ms.garcia@example.com"
+    }
+  ])
+}

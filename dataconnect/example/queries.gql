@@ -1,0 +1,35 @@
+query ListAllStudents @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users.") {
+  students {
+    studentId
+    firstName
+    lastName
+    email
+  }
+}
+
+query GetTeacherProfile($teacherId: String!) @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users.") {
+  teacher(where: {teacherId: {eq: $teacherId}}) {
+    teacherId
+    firstName
+    lastName
+    email
+    department
+  }
+}
+
+mutation RegisterNewCourse($courseId: String!, $title: String!, $description: String!, $credits: Int!) @auth(expr: "auth.token.admin == true") {
+  course_insert(data: {
+    courseId: $courseId,
+    title: $title,
+    description: $description,
+    credits: $credits
+  })
+}
+
+mutation AssignStudentToCourse($studentId: String!, $courseId: String!) @auth(expr: "auth.token.admin == true") {
+  enrollment_insert(data: {
+    studentId: $studentId,
+    courseId: $courseId,
+    enrollmentDate_expr: "request.time"
+  })
+}
